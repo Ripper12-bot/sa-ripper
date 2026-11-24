@@ -1,4 +1,4 @@
-{data"use client";
+"use client";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 type Row = {id:string; title:string; description?:string; price?:string; category?:string; body?:string; is_active?:boolean; is_published?:boolean; is_approved?:boolean; sort_order?:number; created_at?:string};
