@@ -132,7 +132,10 @@ export default function Site() {
       details:form.details
     });
 
-    if(error) setSent("접수에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+    if(error) {
+  console.error("문의 접수 오류:", error);
+  setSent("접수 실패: " + error.message);
+}
     else {
       setSent("문의가 접수되었습니다. 확인 후 안내드리겠습니다.");
       setForm({nickname:"",category:"서비스 문의",contact:"",details:""});
