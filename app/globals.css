@@ -1221,3 +1221,20 @@
   border-top: 1px solid #292929;
   color: #999;
 }
+
+/* HERO BANNER FULL WIDTH */
+.siteHome .hero {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-left: 2%;
+  padding-right: 2%;
+  box-sizing: border-box;
+}
+
+.siteHome .hero > div {
+  width: 100%;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
