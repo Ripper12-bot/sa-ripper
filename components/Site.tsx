@@ -297,33 +297,7 @@ export default function Site() {
         </div>
       </div>
     </section>
-
-    <section id="tier" className="tierOverview">
-      <div className="wrap">
-        <div className="heading">
-          <small>RANK SYSTEM</small>
-          <h2>RANK COLLECTION</h2>
-          <p>SA RIPPER RANK GUIDE</p>
-        </div>
-        <div className="tierOverviewInner">
-          {tiers.map((tier) => (
-            <div className="tierOverviewItem" key={tier.name}>
-              <div className="tierOverviewImages">
-                {tier.images.map((image) => (
-                  <img
-                    key={image}
-                    src={`/tiers/${image}`}
-                    alt={`${tier.name} 티어`}
-                  />
-                ))}
-              </div>
-              <span>{tier.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
+         
     <section className="homeHighlights">
       <div className="wrap">
         <div className="heading">
