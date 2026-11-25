@@ -230,7 +230,7 @@ async function submit(e:React.FormEvent) {
       <div className="wrap nav">
         <a className="logo" href="#">SA <b>RIPPER</b></a>
         <nav>
-          <a href="#service">서비스</a>
+          <a href="#service">상품</a>
           <a href="#price">가격표</a>
           <a href="#apply">신청</a>
           <a href="#review">후기</a>
@@ -249,7 +249,7 @@ async function submit(e:React.FormEvent) {
         <p className="lead">SA RIPPER — 서든어택 전문 서비스 안내 및 상담</p>
         <p className="muted">{status}</p>
         <div className="actions">
-          <a className="btn" href="#service">서비스 보기</a>
+         <a className="btn" href="#service">상품 보기</a>
           <a className="btn ghost" href="#apply">문의하기</a>
         </div>
         <div className="heroMark">SA</div>
@@ -323,9 +323,9 @@ async function submit(e:React.FormEvent) {
     <section id="service" className="section">
       <div className="wrap">
         <div className="heading">
-          <small>OUR SERVICE</small>
-          <h2>서비스 카테고리</h2>
-          <p>운영자가 등록한 서비스를 확인하고 문의하세요.</p>
+          <small>OUR PRODUCTS</small>
+<h2>상품 카테고리</h2>
+<p>등록된 상품을 확인하고 문의하세요.</p>
         </div>
         <div className="cards">
           {services.length ? services.map(x=><article className="card" key={x.id}>
@@ -346,7 +346,7 @@ async function submit(e:React.FormEvent) {
         <div className="heading">
           <small>PRICE GUIDE</small>
           <h2>가격 안내</h2>
-          <p>가격은 관리자 페이지에서 언제든지 변경할 수 있습니다.</p>
+         <p>상품 가격은 관리자 페이지에서 언제든지 변경할 수 있습니다.</p>
         </div>
         <div className="cards">
           {services.length ? services.map(x=><article className="priceCard" key={x.id}>
