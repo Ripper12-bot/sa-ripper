@@ -32,6 +32,10 @@ const tiers = [
 ];
 
 export default function Site() {
+    const [showIntro, setShowIntro] = useState(false);
+  const [introReady, setIntroReady] = useState(false);
+  const [introLeaving, setIntroLeaving] = useState(false);
+  
   const [services, setServices] = useState<Item[]>([]);
   const [notices, setNotices] = useState<Post[]>([]);
   const [events, setEvents] = useState<Post[]>([]);
@@ -57,6 +61,24 @@ export default function Site() {
   const [reviewMessage, setReviewMessage] = useState("");
   const [reviewBusy, setReviewBusy] = useState(false);
 
+   useEffect(() => {
+    const visited = localStorage.getItem("sa-ripper-visited");
+
+    if (!visited) {
+      setShowIntro(true);
+    }
+
+    setIntroReady(true);
+  }, []);
+
+  const enterSite = () => {
+  localStorage.setItem("sa-ripper-visited", "true");
+  setIntroLeaving(true);
+
+  window.setTimeout(() => {
+    setShowIntro(false);
+  }, 650);
+};
   useEffect(() => {
     if (!supabase) return;
 
@@ -256,7 +278,24 @@ export default function Site() {
   }
 
   return (
-  <main className="siteHome">
+  <>
+    {introReady && showIntro && (
+     <div className={`introScreen${introLeaving ? " leaving" : ""}`}>
+        <div className="introContent">
+          <p className="introLabel">SUDDEN ATTACK RANK SERVICE</p>
+          <h1>SA <strong>RIPPER</strong></h1>
+          <p>당신의 새로운 시작</p>
+          <button onClick={enterSite}>
+            사이트 둘러보기 →
+          </button>
+        </div>
+      </div>
+    )}
+
+    <main
+      className="siteHome"
+      style={{ display: introReady && showIntro ? "none" : "block" }}
+    >
     <header className="siteHeader">
       <div className="wrap siteNav">
         <a className="logo" href="#">
@@ -524,6 +563,7 @@ export default function Site() {
         본 사이트는 서든어택 관련 서비스 안내 페이지입니다.
       </div>
     </footer>
-  </main>
+   </main>
+  </>
 );
 }
