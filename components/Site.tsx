@@ -125,6 +125,7 @@ export default function Site() {
     }
 
     const {error}=await supabase.from("applications").insert({
+      user_id:user?.id ?? null,
       nickname:form.nickname,
       category:form.category,
       contact:form.contact,
