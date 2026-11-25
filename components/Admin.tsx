@@ -43,4 +43,46 @@ return <main className="adminShell"><div className="adminLayout"><aside classNam
  <div className="adminForm"><h2>카카오톡 상담 링크</h2><label>오픈채팅 URL<input value={kakao} onFocus={loadKakao} onChange={e=>setKakao(e.target.value)} placeholder="https://open.kakao.com/o/..."/></label><button className="btn" onClick={saveKakao}>링크 저장</button></div>
  </section></div></main>;
 }
-function Applications(){const [items,setItems]=useState<any[]>([]);const [msg,setMsg]=useState("");useEffect(()=>{(async()=>{if(!supabase)return;const {data,error}=await supabase.from("applications").select("*").order("created_at",{ascending:false});if(error)setMsg("신청 목록을 불러오지 못했습니다. 관리자 권한을 확인하세요.");else setItems(data||[]);})();},[]);return <><h2>서비스 신청 및 문의</h2>{msg&&<p>{msg}</p>}<div className="adminRows">{items.map(x=><article key={x.id}><div><b>{x.nickname} · {x.category}</b><p>{x.details}</p><small>{x.contact} · {new Date(x.created_at).toLocaleString("ko-KR")}</small></div></article>)}{!items.length&&!msg&&<p>접수된 신청이 없습니다.</p>}</div></>}
+
+function Applications(){
+  const [items,setItems]=useState<any[]>([]);
+  const [msg,setMsg]=useState("문의 목록을 불러오는 중...");
+
+  useEffect(()=>{
+    (async()=>{
+      if(!supabase)return;
+
+      const {data,error}=await supabase
+        .from("applications")
+        .select("*")
+        .order("created_at",{ascending:false});
+
+      if(error){
+        setMsg("조회 오류: "+error.message);
+        return;
+      }
+
+      setItems(data||[]);
+      setMsg(data?.length ? "" : "데이터가 없습니다.");
+    })();
+  },[]);
+
+  return <>
+    <h2>서비스 신청 및 문의</h2>
+    {msg&&<p>{msg}</p>}
+    <div className="adminRows">
+      {items.map(x=>(
+        <article key={x.id}>
+          <div>
+            <b>{x.nickname} · {x.category}</b>
+            <p>{x.details}</p>
+            <small>
+              {x.contact} · {x.created_at ? new Date(x.created_at).toLocaleString("ko-KR") : ""}
+            </small>
+          </div>
+        </article>
+      ))}
+    </div>
+  </>;
+}
+
