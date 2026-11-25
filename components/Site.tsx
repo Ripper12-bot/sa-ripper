@@ -498,7 +498,14 @@ async function submit(e:React.FormEvent) {
           <h2>궁금한 점이 있으신가요?</h2>
           <p>카카오톡 상담 채널에서 문의할 수 있습니다.</p>
         </div>
-        <a className="btn" href={kakao} target="_blank" rel="noreferrer">카카오톡 상담 ↗</a>
+       <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
+  <a className="btn" href={kakao} target="_blank" rel="noreferrer">
+    카카오톡 상담 ↗
+  </a>
+  <a className="btn ghost" href="https://discord.gg/V8uzyT9zW" target="_blank" rel="noreferrer">
+    디스코드 참여 ↗
+  </a>
+</div>
       </div>
     </section>
 
