@@ -256,50 +256,57 @@ export default function Site() {
   }
 
   return (
-    <main className="siteHome">
-      <header className="siteHeader">
-        <div className="wrap siteNav">
-          <a className="logo" href="#">
-            <span className="brandCrown">♛</span> SA <b>RIPPER</b>
-          </a>
+  <main className="siteHome">
+    <header className="siteHeader">
+      <div className="wrap siteNav">
+        <a className="logo" href="#">
+          ♛ SA <b>RIPPER</b>
+        </a>
+        <nav className="mainNav">
+          <a href="#">HOME</a>
+          <a href="#tier">RANK</a>
+          <a href="#service">SERVICE</a>
+          <a href="#notice">NOTICE</a>
+          <a href="#review">REVIEW</a>
+        </nav>
+        <a className="loginNav" href="#account">
+          {user ? "MY ACCOUNT" : "LOGIN"}
+        </a>
+      </div>
+    </header>
 
-          <nav className="mainNav">
-            <a href="#">⌂ 홈</a>
-            <a href="#service">♧ 상품</a>
-            <a href="#notice">▣ 공지사항</a>
-            <a href="#review">♙ 후기</a>
-            <a href="#contact">☏ 고객 문의</a>
-          </nav>
-
-          <a className="loginNav" href="#account">
-            ♟ {user ? "내 계정" : "로그인"}
+    <section className="mainHero">
+      <div className="wrap heroInner">
+        <div className="heroText">
+          <span className="heroPill">SUDDEN ATTACK RANK SERVICE</span>
+          <p className="heroLogo">SA <strong>RIPPER</strong></p>
+          <h1>
+            한계를 넘어
+            <br />
+            <em>최고의 랭크</em>를 향해
+          </h1>
+          <p className="heroDescription">
+            당신의 랭크 상승을 위한 특별한 경험
+          </p>
+          <a className="heroButton" href="#service">
+            서비스 둘러보기 →
           </a>
         </div>
-      </header>
-
-      <section className="mainHero">
-        <div className="wrap heroInner">
-          <div className="heroText">
-            <span className="heroPill">서든어택 랭크전 전문 서비스</span>
-            <p className="heroLogo">SA <strong>RIPPER</strong></p>
-            <h1>당신의 <em>랭크 상승</em>을 응원합니다!</h1>
-            <p className="heroDescription">
-              더 높은 티어, 더 특별한 경험을 지금 시작하세요.
-            </p>
-            <a className="heroButton" href="#service">상품 둘러보기 ›</a>
-          </div>
-         <div className="heroArtwork" aria-hidden="true">
-<img
-  src="/tiers/sa-ripper-hero-background.png"
-  alt=""
-/>
-</div>
+        <div className="heroArtwork" aria-hidden="true">
+          <img src="/tiers/sa-ripper-hero-background.png" alt="" />
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="tier" className="tierOverview">
-        <div className="wrap tierOverviewInner">
-          {tiers.map((tier, index) => (
+    <section id="tier" className="tierOverview">
+      <div className="wrap">
+        <div className="heading">
+          <small>RANK SYSTEM</small>
+          <h2>RANK COLLECTION</h2>
+          <p>SA RIPPER RANK GUIDE</p>
+        </div>
+        <div className="tierOverviewInner">
+          {tiers.map((tier) => (
             <div className="tierOverviewItem" key={tier.name}>
               <div className="tierOverviewImages">
                 {tier.images.map((image) => (
@@ -314,272 +321,237 @@ export default function Site() {
             </div>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section className="homeHighlights">
-        <div className="wrap highlightGrid">
-          <article className="highlightPanel" id="service">
-            <div className="panelHeading">
-              <h2>◇ 추천 상품</h2>
-              <a href="#price">더보기 ›</a>
-            </div>
-            <div className="miniProducts">
-              {services.length ? services.slice(0, 3).map((item) => (
-                <a className="miniProduct" href="#price" key={item.id}>
-                  <div className="miniProductVisual">SA</div>
-                  <strong>{item.title}</strong>
-                  <small>{item.price || "상담 후 안내"}</small>
-                </a>
-              )) : (
-                <div className="emptyHighlight">
-                  <strong>상품 준비 중</strong>
-                  <p>관리자 페이지에서 상품을 등록해 주세요.</p>
-                </div>
-              )}
-            </div>
-          </article>
-
-          <article className="highlightPanel" id="notice">
-            <div className="panelHeading">
-              <h2>◀ 최신 공지사항</h2>
-              <a href="#allNotices">더보기 ›</a>
-            </div>
-            <div className="miniNoticeList">
-              {notices.length ? notices.slice(0, 3).map((post) => (
-                <div className="miniNotice" key={post.id}>
-                  <span>공지</span>
-                  <strong>{post.title}</strong>
-                  <time>{new Date(post.created_at).toLocaleDateString("ko-KR")}</time>
-                </div>
-              )) : <p className="emptyHighlight">등록된 공지사항이 없습니다.</p>}
-            </div>
-          </article>
-
-          <article className="highlightPanel" id="review">
-            <div className="panelHeading">
-              <h2>★ 이용 후기</h2>
-              <a href="#allReviews">더보기 ›</a>
-            </div>
-            {reviews.length ? (
-              <div className="featuredReview">
-                <div className="reviewAvatar">●</div>
-                <div>
-                  <strong>{reviews[0].title}</strong>
-                  <p>{reviews[0].body}</p>
-                  <span className="reviewStars">★★★★★</span>
-                </div>
-              </div>
-            ) : (
-              <p className="emptyHighlight">아직 등록된 후기가 없습니다.</p>
-            )}
-          </article>
+    <section className="homeHighlights">
+      <div className="wrap">
+        <div className="heading">
+          <small>SA RIPPER CONTENTS</small>
+          <h2>빠른 메뉴</h2>
         </div>
-      </section>
-
-      <section className="contactBanner" id="contact">
-        <div className="wrap contactBannerInner">
-          <div className="contactBannerText">
-            <span>♧</span>
-            <div>
-              <h2>지금 바로 상담하세요!</h2>
-              <p>궁금한 점이 있다면 언제든지 문의주세요!</p>
-            </div>
-          </div>
-          <div className="contactButtons">
-            <a className="kakaoButton" href={kakao} target="_blank" rel="noreferrer">
-              ● 카카오톡 상담 ›
-            </a>
-            <a className="discordButton" href="https://discord.gg/V8uzyT9zW" target="_blank" rel="noreferrer">
-              ◉ 디스코드 참여 ›
-            </a>
-          </div>
+        <div className="highlightGrid">
+          <a className="highlightPanel" href="#service">
+            <span>01</span>
+            <h2>서비스 안내</h2>
+            <p>다양한 상품 확인하기 →</p>
+          </a>
+          <a className="highlightPanel" href="#notice">
+            <span>02</span>
+            <h2>공지사항</h2>
+            <p>최신 소식 확인하기 →</p>
+          </a>
+          <a className="highlightPanel" href="#review">
+            <span>03</span>
+            <h2>이용 후기</h2>
+            <p>고객 후기 확인하기 →</p>
+          </a>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="account" className="section alt">
-        <div className="wrap">
-          <div className="heading">
-            <small>MEMBER ACCOUNT</small>
-            <h2>회원 서비스</h2>
-            <p>회원가입 후 이메일 인증을 완료해 주세요.</p>
-          </div>
-
-          <div className="form">
-            {user ? (
-              <>
-                <h3>로그인되었습니다.</h3>
-                <p>{user.email}</p>
-                <button className="btn" type="button" onClick={handleLogout}>로그아웃</button>
-              </>
-            ) : (
-              <>
-                <div className="actions">
-                  <button className="btn" type="button" onClick={() => {
-                    setAuthMode("signup");
-                    setAuthMessage("");
-                  }}>회원가입</button>
-                  <button className="btn ghost" type="button" onClick={() => {
-                    setAuthMode("login");
-                    setAuthMessage("");
-                  }}>로그인</button>
-                </div>
-
-                <h3>{authMode === "signup" ? "이메일 회원가입" : "이메일 로그인"}</h3>
-                <form onSubmit={handleAuth}>
-                  <label>
-                    이메일
-                    <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="이메일 주소" autoComplete="email" />
-                  </label>
-                  <label>
-                    비밀번호
-                    <input type="password" required minLength={8} value={password} onChange={e => setPassword(e.target.value)} placeholder="8자 이상 입력" autoComplete={authMode === "signup" ? "new-password" : "current-password"} />
-                  </label>
-                  <button className="btn" type="submit" disabled={authBusy}>
-                    {authBusy ? "처리 중..." : authMode === "signup" ? "회원가입하기" : "로그인하기"}
-                  </button>
-                </form>
-              </>
-            )}
-            {authMessage && <p className="formStatus">{authMessage}</p>}
-          </div>
+    <section id="service" className="section">
+      <div className="wrap">
+        <div className="heading">
+          <small>OUR SERVICE</small>
+          <h2>상품 및 서비스</h2>
+          <p>SA RIPPER의 서비스 상품을 확인하세요.</p>
         </div>
-      </section>
-
-      <section id="price" className="section">
-        <div className="wrap">
-          <div className="heading">
-            <small>PRICE GUIDE</small>
-            <h2>상품 및 가격 안내</h2>
-            <p>상품 가격은 관리자 페이지에서 변경할 수 있습니다.</p>
-          </div>
-          <div className="cards">
-            {services.length ? services.map(item => (
-              <article className="priceCard" key={item.id}>
-                <small>{item.category || "SERVICE"}</small>
-                <h3>{item.title}</h3>
-                <strong>{item.price || "상담 후 안내"}</strong>
-                <p>{item.description}</p>
-                <a className="btn full" href="#apply">문의하기</a>
-              </article>
-            )) : (
-              <article className="card">
-                <h3>등록된 상품이 없습니다.</h3>
-                <p>관리자 페이지에서 상품을 등록해 주세요.</p>
-              </article>
-            )}
-          </div>
-        </div>
-      </section>
-
-      <section id="apply" className="section alt">
-        <div className="wrap">
-          <div className="heading">
-            <small>APPLICATION</small>
-            <h2>서비스 신청 / 문의</h2>
-            <p>계정 비밀번호 등 민감한 정보는 입력하지 마세요.</p>
-          </div>
-          <form className="form" onSubmit={submit}>
-            <label>닉네임
-              <input required value={form.nickname} onChange={e => setForm({ ...form, nickname: e.target.value })} placeholder="문의자 닉네임" />
-            </label>
-            <label>문의 종류
-              <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
-                <option>서비스 문의</option>
-                {services.map(s => <option key={s.id}>{s.title}</option>)}
-                <option>기타 문의</option>
-              </select>
-            </label>
-            <label>연락 수단 (선택)
-              <input value={form.contact} onChange={e => setForm({ ...form, contact: e.target.value })} placeholder="오픈채팅 등 연락 가능한 수단" />
-            </label>
-            <label>문의 내용
-              <textarea required value={form.details} onChange={e => setForm({ ...form, details: e.target.value })} placeholder="원하는 서비스와 문의 내용을 적어주세요." />
-            </label>
-            <button className="btn" type="submit">문의 접수하기 ↗</button>
-            {sent && <p className="formStatus">{sent}</p>}
-          </form>
-        </div>
-      </section>
-
-      <section id="allReviews" className="section">
-        <div className="wrap">
-          <div className="heading"><small>PLAYER VOICE</small><h2>전체 이용 후기</h2></div>
-          {user ? (
-            <form className="form" onSubmit={submitReview}>
-              <h3>후기 작성하기</h3>
-              <label>후기 제목
-                <input required value={reviewTitle} onChange={e => setReviewTitle(e.target.value)} placeholder="후기 제목을 입력하세요." />
-              </label>
-              <label>후기 내용
-                <textarea required value={reviewBody} onChange={e => setReviewBody(e.target.value)} placeholder="서비스 이용 후기를 작성해 주세요." />
-              </label>
-              <button className="btn" type="submit" disabled={reviewBusy}>
-                {reviewBusy ? "등록 중..." : "후기 등록하기"}
-              </button>
-              {reviewMessage && <p className="formStatus">{reviewMessage}</p>}
-              <p className="muted">작성한 후기는 관리자 승인 후 공개됩니다.</p>
-            </form>
-          ) : (
-            <div className="card">
-              <p>후기를 작성하려면 먼저 로그인해 주세요.</p>
-              <a className="btn" href="#account">로그인하기</a>
-            </div>
+        <div className="cards">
+          {services.length ? services.map((item) => (
+            <article className="priceCard" key={item.id}>
+              <small>{item.category || "SERVICE"}</small>
+              <h3>{item.title}</h3>
+              <strong>{item.price || "상담 후 안내"}</strong>
+              <p>{item.description}</p>
+              <a className="btn full" href="#apply">문의하기 →</a>
+            </article>
+          )) : (
+            <article className="card">
+              <h3>등록된 상품이 없습니다.</h3>
+            </article>
           )}
-          <div className="cards">
-            {reviews.length ? reviews.map(item => (
-              <article className="card" key={item.id}>
-                <p>{item.body}</p>
-                <h3>{item.title}</h3>
-              </article>
-            )) : <article className="card"><h3>등록된 후기가 없습니다.</h3></article>}
+        </div>
+      </div>
+    </section>
+
+    <section id="account" className="section alt">
+      <div className="wrap">
+        <div className="heading">
+          <small>MEMBER ACCOUNT</small>
+          <h2>회원 서비스</h2>
+        </div>
+        <div className="form">
+          {user ? (
+            <>
+              <h3>로그인되었습니다.</h3>
+              <p>{user.email}</p>
+              <button className="btn" type="button" onClick={handleLogout}>
+                로그아웃
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="actions">
+                <button className="btn" type="button" onClick={() => {
+                  setAuthMode("signup");
+                  setAuthMessage("");
+                }}>회원가입</button>
+                <button className="btn ghost" type="button" onClick={() => {
+                  setAuthMode("login");
+                  setAuthMessage("");
+                }}>로그인</button>
+              </div>
+              <h3>{authMode === "signup" ? "이메일 회원가입" : "이메일 로그인"}</h3>
+              <form onSubmit={handleAuth}>
+                <label>이메일
+                  <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="이메일 주소" />
+                </label>
+                <label>비밀번호
+                  <input type="password" required minLength={8} value={password} onChange={e => setPassword(e.target.value)} placeholder="8자 이상 입력" />
+                </label>
+                <button className="btn" type="submit" disabled={authBusy}>
+                  {authBusy ? "처리 중..." : authMode === "signup" ? "회원가입하기" : "로그인하기"}
+                </button>
+              </form>
+            </>
+          )}
+          {authMessage && <p className="formStatus">{authMessage}</p>}
+        </div>
+      </div>
+    </section>
+
+    <section id="apply" className="section">
+      <div className="wrap">
+        <div className="heading">
+          <small>APPLICATION</small>
+          <h2>서비스 신청 및 문의</h2>
+        </div>
+        <form className="form" onSubmit={submit}>
+          <label>닉네임
+            <input required value={form.nickname} onChange={e => setForm({ ...form, nickname: e.target.value })} />
+          </label>
+          <label>문의 종류
+            <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
+              <option>서비스 문의</option>
+              {services.map(s => <option key={s.id}>{s.title}</option>)}
+              <option>기타 문의</option>
+            </select>
+          </label>
+          <label>연락 수단
+            <input value={form.contact} onChange={e => setForm({ ...form, contact: e.target.value })} placeholder="연락 가능한 수단" />
+          </label>
+          <label>문의 내용
+            <textarea required value={form.details} onChange={e => setForm({ ...form, details: e.target.value })} />
+          </label>
+          <button className="btn" type="submit">문의 접수하기 →</button>
+          {sent && <p className="formStatus">{sent}</p>}
+        </form>
+      </div>
+    </section>
+
+    <section id="review" className="section alt">
+      <div className="wrap">
+        <div className="heading">
+          <small>PLAYER VOICE</small>
+          <h2>이용 후기</h2>
+        </div>
+        {user ? (
+          <form className="form" onSubmit={submitReview}>
+            <h3>후기 작성하기</h3>
+            <label>후기 제목
+              <input required value={reviewTitle} onChange={e => setReviewTitle(e.target.value)} />
+            </label>
+            <label>후기 내용
+              <textarea required value={reviewBody} onChange={e => setReviewBody(e.target.value)} />
+            </label>
+            <button className="btn" type="submit" disabled={reviewBusy}>
+              {reviewBusy ? "등록 중..." : "후기 등록하기"}
+            </button>
+            {reviewMessage && <p className="formStatus">{reviewMessage}</p>}
+            <p className="muted">후기는 관리자 승인 후 공개됩니다.</p>
+          </form>
+        ) : (
+          <div className="card">
+            <p>후기를 작성하려면 먼저 로그인해 주세요.</p>
+            <a className="btn" href="#account">로그인하기</a>
+          </div>
+        )}
+        <div className="cards">
+          {reviews.length ? reviews.map(item => (
+            <article className="card" key={item.id}>
+              <p>{item.body}</p>
+              <h3>{item.title}</h3>
+            </article>
+          )) : <article className="card">등록된 후기가 없습니다.</article>}
+        </div>
+      </div>
+    </section>
+
+    <section id="notice" className="section">
+      <div className="wrap">
+        <div className="heading">
+          <small>NOTICE</small>
+          <h2>공지사항</h2>
+        </div>
+        <div className="rows">
+          {notices.length ? notices.map(item => (
+            <article className="row" key={item.id}>
+              <b>{item.title}</b>
+              <span>{new Date(item.created_at).toLocaleDateString("ko-KR")}</span>
+              <p>{item.body}</p>
+            </article>
+          )) : <div className="row">등록된 공지사항이 없습니다.</div>}
+        </div>
+      </div>
+    </section>
+
+    <section id="event" className="section alt">
+      <div className="wrap">
+        <div className="heading">
+          <small>SPECIAL EVENT</small>
+          <h2>이벤트</h2>
+        </div>
+        <div className="cards">
+          {events.length ? events.map(item => (
+            <article className="card" key={item.id}>
+              <small>EVENT</small>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          )) : <article className="card">진행 중인 이벤트가 없습니다.</article>}
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" className="contactBanner">
+      <div className="wrap contactBannerInner">
+        <div className="contactBannerText">
+          <div>
+            <h2>지금 바로 상담하세요!</h2>
+            <p>궁금한 점은 언제든지 문의해 주세요.</p>
           </div>
         </div>
-      </section>
+        <div className="contactButtons">
+          <a className="kakaoButton" href={kakao} target="_blank" rel="noreferrer">
+            카카오톡 상담 →
+          </a>
+          <a className="discordButton" href="https://discord.gg/V8uzyT9zW" target="_blank" rel="noreferrer">
+            디스코드 참여 →
+          </a>
+        </div>
+      </div>
+    </section>
 
-      <section id="allNotices" className="section alt">
-        <div className="wrap">
-          <div className="heading"><small>NOTICE</small><h2>전체 공지사항</h2></div>
-          <div className="rows">
-            {notices.length ? notices.map(item => (
-              <article className="row" key={item.id}>
-                <b>{item.title}</b>
-                <span>{new Date(item.created_at).toLocaleDateString("ko-KR")}</span>
-                <p>{item.body}</p>
-              </article>
-            )) : <div className="row">등록된 공지사항이 없습니다.</div>}
-          </div>
-        </div>
-      </section>
-
-      <section id="event" className="section">
-        <div className="wrap">
-          <div className="heading"><small>SPECIAL EVENT</small><h2>이벤트</h2></div>
-          <div className="cards">
-            {events.length ? events.map(item => (
-              <article className="card" key={item.id}>
-                <small>EVENT</small><h3>{item.title}</h3><p>{item.body}</p>
-              </article>
-            )) : <article className="card"><h3>진행 중인 이벤트가 없습니다.</h3></article>}
-          </div>
-        </div>
-      </section>
-
-      <footer className="siteFooter">
-        <div className="wrap footer">
-          <a className="logo" href="#"><span className="brandCrown">♛</span> SA <b>RIPPER</b></a>
-          <nav className="footerNav">
-            <a href="#">홈</a>
-            <a href="#service">상품</a>
-            <a href="#notice">공지사항</a>
-            <a href="#review">후기</a>
-            <a href="#contact">고객 문의</a>
-          </nav>
-          <span>© 2026 SA RIPPER. All rights reserved.</span>
-        </div>
-        <div className="wrap footnote">
-          본 사이트는 서든어택 관련 서비스 안내 페이지입니다. 게임사 이용약관 및 관련 법령을 확인하고 준수하세요.
-        </div>
-      </footer>
-    </main>
-  );
+    <footer className="siteFooter">
+      <div className="wrap footer">
+        <a className="logo" href="#">♛ SA <b>RIPPER</b></a>
+        <span>© 2026 SA RIPPER. All rights reserved.</span>
+      </div>
+      <div className="wrap footnote">
+        본 사이트는 서든어택 관련 서비스 안내 페이지입니다.
+      </div>
+    </footer>
+  </main>
+);
 }
