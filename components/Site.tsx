@@ -292,9 +292,7 @@ export default function Site() {
             서비스 둘러보기 →
           </a>
         </div>
-        <div className="heroArtwork" aria-hidden="true">
-          <img src="/tiers/sa-ripper-hero-background.png" alt="" />
-        </div>
+      
       </div>
     </section>
          
