@@ -294,7 +294,7 @@ export default function Site() {
 
     <main
       className="siteHome"
-      style={{ display: introReady && showIntro ? "none" : "block" }}
+      style={{ display: !introReady || showIntro ? "none" : "block" }}
     >
     <header className="siteHeader">
       <div className="wrap siteNav">
