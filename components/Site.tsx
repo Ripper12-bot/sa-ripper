@@ -288,10 +288,12 @@ export default function Site() {
             </p>
             <a className="heroButton" href="#service">상품 둘러보기 ›</a>
           </div>
-          <div className="heroArtwork" aria-hidden="true">
-            <span>SA</span>
-            <strong>SUDDEN<br />ATTACK</strong>
-          </div>
+         <div className="heroArtwork" aria-hidden="true">
+  <img
+    src="/sa-ripper-hero-background.png"
+    alt=""
+  />
+</div>
         </div>
       </section>
 
