@@ -97,3 +97,437 @@
     padding: 12px 8px;
   }
 }
+
+/* ==============================
+   SA RIPPER 홈페이지 디자인
+============================== */
+
+.siteHome {
+  min-height: 100vh;
+  background: #080808;
+  color: #f5f5f5;
+  overflow: hidden;
+}
+
+.siteHeader {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 6%;
+  background: rgba(8, 8, 8, 0.96);
+  border-bottom: 1px solid #292929;
+  backdrop-filter: blur(12px);
+}
+
+.siteHeader .brandCrown {
+  color: #ed2525;
+  font-size: 23px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.siteHeader .mainNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.siteHeader .mainNav a,
+.siteHeader .loginNav {
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.siteHeader .mainNav a:hover,
+.siteHeader .loginNav:hover {
+  color: #ff3030;
+}
+
+.siteHeader .loginNav {
+  padding: 10px 19px;
+  border: 1px solid #e52b2b;
+  border-radius: 6px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.mainHero {
+  position: relative;
+  min-height: 510px;
+  display: flex;
+  align-items: center;
+  padding: 75px 8%;
+  background:
+    radial-gradient(ellipse at 80% 45%, rgba(150, 0, 0, 0.28), transparent 42%),
+    linear-gradient(110deg, #160606 0%, #090909 60%, #200707 100%);
+  border-bottom: 1px solid #351010;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.heroText {
+  max-width: 620px;
+}
+
+.heroPill {
+  display: inline-block;
+  padding: 8px 15px;
+  margin-bottom: 22px;
+  border: 1px solid #a52b2b;
+  border-radius: 30px;
+  color: #ff7777;
+  background: rgba(120, 0, 0, 0.18);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.heroText h1 {
+  margin: 0 0 20px;
+  font-size: clamp(38px, 5vw, 66px);
+  line-height: 1.12;
+  font-weight: 950;
+  letter-spacing: -2px;
+}
+
+.heroText p {
+  color: #bdbdbd;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.heroLogo {
+  color: #f52c2c;
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 1000;
+  letter-spacing: 3px;
+  text-shadow: 0 0 30px rgba(255, 0, 0, 0.35);
+}
+
+.heroButton {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 15px 30px;
+  border-radius: 6px;
+  background: #d92323;
+  color: #fff;
+  font-weight: 900;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.heroButton:hover {
+  background: #ff3838;
+  transform: translateY(-2px);
+}
+
+.heroArtwork {
+  max-width: 43%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 35px rgba(200, 0, 0, 0.2));
+}
+
+.tierOverview {
+  padding: 65px 6%;
+  background: #0d0d0d;
+  border-bottom: 1px solid #252525;
+}
+
+.tierOverviewInner {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+.tierOverview h2,
+.homeHighlights h2 {
+  margin: 0 0 12px;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.tierOverviewInner > p {
+  margin-bottom: 35px;
+  color: #888;
+}
+
+.tierOverviewItem {
+  min-width: 0;
+  padding: 20px 12px;
+  text-align: center;
+  background: #151515;
+  border: 1px solid #292929;
+  border-radius: 10px;
+}
+
+.tierOverviewItem h3 {
+  margin: 0 0 15px;
+  color: #f0f0f0;
+  font-size: 17px;
+}
+
+.tierOverviewImages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.tierOverviewImages img {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+}
+
+.homeHighlights {
+  padding: 65px 6%;
+  background: #090909;
+}
+
+.highlightGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  max-width: 1250px;
+  margin: 30px auto 0;
+}
+
+.highlightPanel {
+  min-width: 0;
+  padding: 25px;
+  background: #141414;
+  border: 1px solid #292929;
+  border-radius: 10px;
+}
+
+.panelHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.panelHeading h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.panelHeading a {
+  color: #f04444;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.miniProducts,
+.miniNoticeList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.miniProduct {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  background: #1d1d1d;
+  border-radius: 7px;
+}
+
+.miniProductVisual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  flex-shrink: 0;
+  background: #300d0d;
+  border-radius: 7px;
+  color: #ff4545;
+  font-weight: 900;
+}
+
+.miniNotice {
+  display: block;
+  padding: 13px 0;
+  color: #ddd;
+  border-bottom: 1px solid #292929;
+  text-decoration: none;
+}
+
+.featuredReview {
+  padding: 18px;
+  background: #1d1d1d;
+  border-left: 3px solid #e52b2b;
+  border-radius: 5px;
+  color: #ccc;
+  line-height: 1.7;
+}
+
+.contactBanner {
+  padding: 55px 6%;
+  background: linear-gradient(110deg, #310909, #150707);
+  border-top: 1px solid #5b1717;
+  border-bottom: 1px solid #5b1717;
+}
+
+.contactBannerInner {
+  max-width: 1250px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.contactBannerText h2 {
+  margin: 0 0 10px;
+  font-size: 28px;
+}
+
+.contactBannerText p {
+  margin: 0;
+  color: #c2aaaa;
+}
+
+.contactButtons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.kakaoButton,
+.discordButton {
+  display: inline-block;
+  padding: 14px 23px;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  text-align: center;
+}
+
+.kakaoButton {
+  background: #f5d900;
+  color: #191500;
+}
+
+.discordButton {
+  background: #5865f2;
+}
+
+.siteFooter {
+  padding: 35px 6%;
+  background: #050505;
+  color: #777;
+}
+
+.siteFooter .footerNav {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.siteFooter .footerNav a {
+  color: #aaa;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+/* 반응형 모바일 화면 */
+@media (max-width: 900px) {
+  .siteHeader {
+    flex-wrap: wrap;
+    padding: 15px 5%;
+  }
+
+  .siteHeader .mainNav {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 15px;
+  }
+
+  .heroInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .heroArtwork {
+    max-width: 75%;
+    align-self: center;
+  }
+
+  .highlightGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .mainHero {
+    min-height: auto;
+    padding: 65px 6%;
+  }
+
+  .heroText h1 {
+    font-size: 39px;
+  }
+
+  .heroText p {
+    font-size: 14px;
+  }
+
+  .heroArtwork {
+    max-width: 100%;
+  }
+
+  .tierOverview,
+  .homeHighlights {
+    padding: 45px 5%;
+  }
+
+  .highlightGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .contactBannerInner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .contactButtons {
+    width: 100%;
+  }
+
+  .kakaoButton,
+  .discordButton {
+    flex: 1;
+  }
+
+  .tierOverviewImages img {
+    width: 55px;
+    height: 55px;
+  }
+}
