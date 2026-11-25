@@ -115,32 +115,50 @@ export default function Site() {
     setAuthMessage(error ? "로그아웃에 실패했습니다." : "로그아웃되었습니다.");
   }
 
-  async function submit(e:React.FormEvent) {
-    e.preventDefault();
-    setSent("");
+ 
+async function submit(e:React.FormEvent) {
+  e.preventDefault();
+  setSent("");
 
-    if(!supabase) {
-      setSent("사이트 데이터 연결이 아직 완료되지 않았습니다.");
-      return;
-    }
+  if(!supabase) {
+    setSent("사이트 데이터 연결이 아직 완료되지 않았습니다.");
+    return;
+  }
 
-    const {error}=await supabase.from("applications").insert({
-      user_id:user?.id ?? null,
-      nickname:form.nickname,
-      category:form.category,
-      contact:form.contact,
-      details:form.details
+  const {error}=await supabase.from("applications").insert({
+    user_id:user?.id ?? null,
+    nickname:form.nickname,
+    category:form.category,
+    contact:form.contact,
+    details:form.details
+  });
+
+  if(error) {
+    console.error("문의 접수 오류:", error);
+    setSent("접수 실패: " + error.message);
+    return;
+  }
+
+  try {
+    const emailResponse = await fetch("/api/notify-application", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form)
     });
 
-    if(error) {
-  console.error("문의 접수 오류:", error);
-  setSent("접수 실패: " + error.message);
-}
-    else {
-      setSent("문의가 접수되었습니다. 확인 후 안내드리겠습니다.");
-      setForm({nickname:"",category:"서비스 문의",contact:"",details:""});
+    if(!emailResponse.ok) {
+      setSent("문의는 접수되었습니다. 이메일 알림은 전송되지 않았습니다.");
+    } else {
+      setSent("문의가 접수되었습니다. 관리자에게 이메일 알림을 보냈습니다.");
     }
+  } catch(error) {
+    console.error("이메일 알림 오류:", error);
+    setSent("문의는 접수되었습니다. 이메일 알림은 전송되지 않았습니다.");
   }
+
+  setForm({nickname:"",category:"서비스 문의",contact:"",details:""});
+}
+
 
   return <main>
     <header>
