@@ -1,1 +1,99 @@
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#090909;color:#f5f5f5;font-family:Arial,"Noto Sans KR",sans-serif;line-height:1.65}a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit}.wrap{width:min(1140px,calc(100% - 40px));margin:auto}header{position:sticky;top:0;z-index:10;background:#090909ed;border-bottom:1px solid #242424;backdrop-filter:blur(12px)}.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}.logo{font-size:24px;font-weight:950;letter-spacing:1px}.logo b{color:#e32636}nav{display:flex;gap:22px;color:#bbb;font-size:13px}nav a:hover{color:#ff4655}.navbtn,.btn{background:#e32636;border:0;color:white;padding:11px 18px;font-weight:800;display:inline-block;cursor:pointer;border-radius:3px}.hero{min-height:590px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 80% 45%,#5b101a55,transparent 40%),linear-gradient(110deg,#090909,#151010);border-bottom:1px solid #292929}.heroContent{position:relative;padding:100px 0;z-index:1}.eyebrow,.heading small,.contact small{color:#ff4655;font-size:11px;font-weight:900;letter-spacing:3px}.hero h1{font-size:clamp(54px,8vw,90px);line-height:.98;letter-spacing:-3px;margin:20px 0}.hero h1 span{color:#e32636}.lead{font-size:18px}.muted,.heading p{color:#999;font-size:13px}.actions{display:flex;gap:12px;margin-top:30px}.ghost{background:transparent;border:1px solid #555}.heroMark{position:absolute;right:4%;top:40px;font-size:clamp(190px,35vw,420px);font-weight:1000;color:#ffffff08;line-height:1;pointer-events:none}.section{padding:82px 0}.alt{background:#101010;border-block:1px solid #222}.heading{margin-bottom:28px}.heading h2{font-size:34px;margin:5px 0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card,.priceCard{padding:24px;background:#141414;border:1px solid #292929;border-radius:5px}.card small,.priceCard small{color:#ff4655;font-weight:800;letter-spacing:1px}.card h3,.priceCard h3{margin:9px 0}.card p,.priceCard p{color:#aaa;font-size:13px}.priceCard strong{display:block;font-size:25px;margin:15px 0}.full{display:block;text-align:center}.form{max-width:680px;background:#141414;border:1px solid #292929;padding:25px;border-radius:5px}.form label,.adminBox label,.adminForm label{display:block;font-size:13px;color:#ccc;margin:12px 0}.form input,.form select,.form textarea,.adminBox input,.adminForm input,.adminForm textarea{display:block;width:100%;margin-top:6px;background:#090909;border:1px solid #393939;color:white;padding:12px;border-radius:3px}.form textarea,.adminForm textarea{min-height:105px}.formStatus{color:#ff8790;font-size:13px}.rows{display:grid;gap:10px}.row{padding:17px;background:#141414;border:1px solid #292929}.row span{float:right;color:#999;font-size:12px}.row p{color:#aaa;font-size:13px;margin-bottom:0}.contact{padding:40px 0;background:linear-gradient(100deg,#2b0d12,#151010);border-block:1px solid #51222a}.contactInner,.footer{display:flex;justify-content:space-between;align-items:center;gap:20px}.contact h2{margin:6px 0}.contact p{color:#c6aeb0;font-size:13px}footer{padding:30px 0;color:#888;font-size:12px}.footnote{margin-top:15px;color:#666}.adminShell{min-height:100vh;background:#090909;padding:35px 20px}.adminBox{width:min(430px,100%);margin:8vh auto;background:#141414;border:1px solid #333;padding:30px;border-radius:7px}.adminBox h1{font-size:25px}.adminBox p{color:#999;font-size:13px}.adminBox .btn{width:100%;margin:15px 0}.adminLayout{max-width:1250px;margin:auto;display:grid;grid-template-columns:230px 1fr;gap:28px}.adminSide{background:#141414;border:1px solid #292929;padding:22px;display:flex;flex-direction:column;gap:10px;align-self:start;position:sticky;top:20px}.adminSide p,.adminTop small{color:#888;font-size:11px;letter-spacing:2px}.adminSide button{background:#202020;border:1px solid #333;color:#ddd;text-align:left;padding:11px;cursor:pointer}.adminSide button.selected{border-color:#e32636;color:#ff6b76}.adminSide a:last-child{margin-top:12px;color:#aaa;font-size:13px}.adminMain{min-width:0}.adminTop{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #292929;margin-bottom:22px}.adminTop h1{margin:5px 0 20px}.adminTop span{color:#75d69a;font-size:12px}.adminForm{background:#141414;border:1px solid #292929;padding:22px;margin:20px 0}.adminForm h2,.adminMain h2{font-size:18px}.adminRows{display:grid;gap:9px}.adminRows article{display:flex;justify-content:space-between;gap:15px;background:#141414;border:1px solid #292929;padding:15px}.adminRows p{color:#999;font-size:13px;margin:4px 0}.rowActions{display:flex;gap:7px;align-items:center}.rowActions button{background:#242424;color:#ddd;border:1px solid #444;padding:7px;cursor:pointer}.adminMessage{color:#ff8790;font-size:13px}@media(max-width:800px){nav{display:none}.cards{grid-template-columns:1fr 1fr}.adminLayout{grid-template-columns:1fr}.adminSide{position:static}.adminSide button{display:inline-block}.adminSide{display:grid;grid-template-columns:1fr 1fr}.adminSide .logo,.adminSide p,.adminSide a{grid-column:1/-1}}@media(max-width:540px){.wrap{width:calc(100% - 28px)}.cards{grid-template-columns:1fr}.hero{min-height:520px}.heroContent{padding:80px 0}.hero h1{letter-spacing:-2px}.section{padding:60px 0}.contactInner,.footer{align-items:flex-start;flex-direction:column}.adminShell{padding:15px}.adminRows article{flex-direction:column}}
+/* SA RIPPER TIER SECTION */
+.tierSection {
+  background:
+    radial-gradient(ellipse at 50% 0%, #3b1018 0%, transparent 55%),
+    #090909;
+}
+
+.tierGroups {
+  display: grid;
+  gap: 22px;
+}
+
+.tierGroup {
+  padding: 24px;
+  background: linear-gradient(145deg, #171313, #101010);
+  border: 1px solid #382126;
+  border-left: 3px solid #e32636;
+  border-radius: 5px;
+}
+
+.tierGroup > h3 {
+  margin: 0 0 18px;
+  color: #ff4655;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.tierStages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.tierCard {
+  min-width: 0;
+  padding: 18px 12px;
+  text-align: center;
+  background: #090909;
+  border: 1px solid #302629;
+  border-radius: 5px;
+  transition: border-color .2s, transform .2s;
+}
+
+.tierCard:hover {
+  border-color: #e32636;
+  transform: translateY(-3px);
+}
+
+.tierImage {
+  height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 12px;
+  background: radial-gradient(circle, #3b171d 0%, #111 65%);
+  border: 1px solid #292020;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tierImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+}
+
+.tierImage span {
+  position: absolute;
+  color: #777;
+  font-size: 11px;
+}
+
+.tierCard strong {
+  display: block;
+  color: #eee;
+  font-size: 14px;
+}
+
+@media(max-width:540px) {
+  .tierGroup {
+    padding: 16px 12px;
+  }
+
+  .tierStages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .tierImage {
+    height: 105px;
+  }
+
+  .tierCard {
+    padding: 12px 8px;
+  }
+}
