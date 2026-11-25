@@ -6,6 +6,38 @@ import { supabase } from "@/lib/supabase";
 type Item = { id:string; title:string; description:string|null; price:string|null; category:string|null; created_at?:string };
 type Post = { id:string; title:string; body:string; created_at:string };
 
+const tiers = [
+  {
+    name:"브론즈",
+    stages:[
+      {name:"브론즈 1",image:"bronze-1.png"},
+      {name:"브론즈 2",image:"bronze-2.png"},
+      {name:"브론즈 3",image:"bronze-3.png"}
+    ]
+  },
+  {
+    name:"실버",
+    stages:[
+      {name:"실버 1",image:"silver-1.png"},
+      {name:"실버 2",image:"silver-2.png"},
+      {name:"실버 3",image:"silver-3.png"}
+    ]
+  },
+  {
+    name:"골드",
+    stages:[
+      {name:"골드 1",image:"gold-1.png"},
+      {name:"골드 2",image:"gold-2.png"},
+      {name:"골드 3",image:"gold-3.png"}
+    ]
+  },
+  {name:"마스터",stages:[{name:"마스터",image:"master.png"}]},
+  {name:"그랜드마스터",stages:[{name:"그랜드마스터",image:"grandmaster.png"}]},
+  {name:"레전드",stages:[{name:"레전드",image:"legend.png"}]},
+  {name:"불레전드",stages:[{name:"불레전드",image:"fire-legend.png"}]},
+  {name:"별레전드",stages:[{name:"별레전드",image:"star-legend.png"}]}
+];
+
 export default function Site() {
   const [services,setServices] = useState<Item[]>([]);
   const [notices,setNotices] = useState<Post[]>([]);
@@ -26,6 +58,7 @@ export default function Site() {
   const [reviewBody,setReviewBody] = useState("");
   const [reviewMessage,setReviewMessage] = useState("");
   const [reviewBusy,setReviewBusy] = useState(false);
+
   useEffect(()=>{
     if (!supabase) return;
 
@@ -118,118 +151,119 @@ export default function Site() {
     setAuthMessage(error ? "로그아웃에 실패했습니다." : "로그아웃되었습니다.");
   }
 
- async function submitReview(e:React.FormEvent) {
-  e.preventDefault();
-  setReviewMessage("");
+  async function submitReview(e:React.FormEvent) {
+    e.preventDefault();
+    setReviewMessage("");
 
-  if(!supabase || !user) {
-    setReviewMessage("로그인 후 이용해 주세요.");
-    return;
-  }
-
-  if(!reviewTitle.trim() || !reviewBody.trim()) {
-    setReviewMessage("제목과 후기 내용을 입력해 주세요.");
-    return;
-  }
-
-  setReviewBusy(true);
-
-  try {
-    const {data:sessionData} = await supabase.auth.getSession();
-    const accessToken = sessionData.session?.access_token;
-
-    if(!accessToken) {
-      setReviewMessage("로그인 정보를 확인할 수 없습니다. 다시 로그인해 주세요.");
+    if(!supabase || !user) {
+      setReviewMessage("로그인 후 이용해 주세요.");
       return;
     }
 
-    const {error} = await supabase.from("reviews").insert({
-      user_id:user.id,
-      title:reviewTitle.trim(),
-      body:reviewBody.trim(),
-      is_approved:false
+    if(!reviewTitle.trim() || !reviewBody.trim()) {
+      setReviewMessage("제목과 후기 내용을 입력해 주세요.");
+      return;
+    }
+
+    setReviewBusy(true);
+
+    try {
+      const {data:sessionData} = await supabase.auth.getSession();
+      const accessToken = sessionData.session?.access_token;
+
+      if(!accessToken) {
+        setReviewMessage("로그인 정보를 확인할 수 없습니다. 다시 로그인해 주세요.");
+        return;
+      }
+
+      const {error} = await supabase.from("reviews").insert({
+        user_id:user.id,
+        title:reviewTitle.trim(),
+        body:reviewBody.trim(),
+        is_approved:false
+      });
+
+      if(error) {
+        setReviewMessage("후기 등록 실패: " + error.message);
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/notify-review", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
+            title:reviewTitle.trim(),
+            body:reviewBody.trim(),
+            accessToken
+          })
+        });
+
+        if(response.ok) {
+          setReviewMessage("후기가 접수되었습니다. 관리자 승인 후 공개됩니다.");
+        } else {
+          setReviewMessage("후기는 접수되었습니다. 디스코드 알림 전송은 실패했습니다.");
+        }
+      } catch {
+        setReviewMessage("후기는 접수되었습니다. 디스코드 알림 전송은 실패했습니다.");
+      }
+
+      setReviewTitle("");
+      setReviewBody("");
+    } finally {
+      setReviewBusy(false);
+    }
+  }
+
+  async function submit(e:React.FormEvent) {
+    e.preventDefault();
+    setSent("");
+
+    if(!supabase) {
+      setSent("사이트 데이터 연결이 아직 완료되지 않았습니다.");
+      return;
+    }
+
+    const {error}=await supabase.from("applications").insert({
+      user_id:user?.id ?? null,
+      nickname:form.nickname,
+      category:form.category,
+      contact:form.contact,
+      details:form.details
     });
 
     if(error) {
-      setReviewMessage("후기 등록 실패: " + error.message);
+      console.error("문의 접수 오류:", error);
+      setSent("접수 실패: " + error.message);
       return;
     }
 
     try {
-      const response = await fetch("/api/notify-review", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          title:reviewTitle.trim(),
-          body:reviewBody.trim(),
-          accessToken
-        })
+      const emailResponse = await fetch("/api/notify-application", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form)
       });
 
-      if(response.ok) {
-        setReviewMessage("후기가 접수되었습니다. 관리자 승인 후 공개됩니다.");
+      if(!emailResponse.ok) {
+        setSent("문의는 접수되었습니다. 이메일 알림은 전송되지 않았습니다.");
       } else {
-        setReviewMessage("후기는 접수되었습니다. 디스코드 알림 전송은 실패했습니다.");
+        setSent("문의가 접수되었습니다. 관리자에게 이메일 알림을 보냈습니다.");
       }
-    } catch {
-      setReviewMessage("후기는 접수되었습니다. 디스코드 알림 전송은 실패했습니다.");
-    }
-
-    setReviewTitle("");
-    setReviewBody("");
-  } finally {
-    setReviewBusy(false);
-  }
-}
-async function submit(e:React.FormEvent) {
-  e.preventDefault();
-  setSent("");
-
-  if(!supabase) {
-    setSent("사이트 데이터 연결이 아직 완료되지 않았습니다.");
-    return;
-  }
-
-  const {error}=await supabase.from("applications").insert({
-    user_id:user?.id ?? null,
-    nickname:form.nickname,
-    category:form.category,
-    contact:form.contact,
-    details:form.details
-  });
-
-  if(error) {
-    console.error("문의 접수 오류:", error);
-    setSent("접수 실패: " + error.message);
-    return;
-  }
-
-  try {
-    const emailResponse = await fetch("/api/notify-application", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form)
-    });
-
-    if(!emailResponse.ok) {
+    } catch(error) {
+      console.error("이메일 알림 오류:", error);
       setSent("문의는 접수되었습니다. 이메일 알림은 전송되지 않았습니다.");
-    } else {
-      setSent("문의가 접수되었습니다. 관리자에게 이메일 알림을 보냈습니다.");
     }
-  } catch(error) {
-    console.error("이메일 알림 오류:", error);
-    setSent("문의는 접수되었습니다. 이메일 알림은 전송되지 않았습니다.");
+
+    setForm({nickname:"",category:"서비스 문의",contact:"",details:""});
   }
-
-  setForm({nickname:"",category:"서비스 문의",contact:"",details:""});
-}
-
 
   return <main>
     <header>
       <div className="wrap nav">
         <a className="logo" href="#">SA <b>RIPPER</b></a>
         <nav>
+          <a href="#tier">티어</a>
           <a href="#service">상품</a>
           <a href="#price">가격표</a>
           <a href="#apply">신청</a>
@@ -249,10 +283,47 @@ async function submit(e:React.FormEvent) {
         <p className="lead">SA RIPPER — 서든어택 전문 서비스 안내 및 상담</p>
         <p className="muted">{status}</p>
         <div className="actions">
-         <a className="btn" href="#service">상품 보기</a>
+          <a className="btn" href="#service">상품 보기</a>
           <a className="btn ghost" href="#apply">문의하기</a>
         </div>
         <div className="heroMark">SA</div>
+      </div>
+    </section>
+
+    <section id="tier" className="section tierSection">
+      <div className="wrap">
+        <div className="heading">
+          <small>SA RIPPER RANK SYSTEM</small>
+          <h2>티어 안내</h2>
+          <p>SA RIPPER 티어 등급을 확인하세요.</p>
+        </div>
+
+        <div className="tierGroups">
+          {tiers.map((tier)=>(
+            <article className="tierGroup" key={tier.name}>
+              <h3>{tier.name}</h3>
+              <div className="tierStages">
+                {tier.stages.map((stage)=>(
+                  <div className="tierCard" key={stage.name}>
+                    <div className="tierImage">
+                      <img
+                        src={`/tiers/${stage.image}`}
+                        alt={`${stage.name} 티어 엠블럼`}
+                        onError={(e)=>{e.currentTarget.style.display="none";}}
+                        onLoad={(e)=>{
+                          const fallback=e.currentTarget.nextElementSibling;
+                          fallback?.setAttribute("hidden","true");
+                        }}
+                      />
+                      <span>실제 티어 이미지 준비 중</span>
+                    </div>
+                    <strong>{stage.name}</strong>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
 
@@ -324,8 +395,8 @@ async function submit(e:React.FormEvent) {
       <div className="wrap">
         <div className="heading">
           <small>OUR PRODUCTS</small>
-<h2>상품 카테고리</h2>
-<p>등록된 상품을 확인하고 문의하세요.</p>
+          <h2>상품 카테고리</h2>
+          <p>등록된 상품을 확인하고 문의하세요.</p>
         </div>
         <div className="cards">
           {services.length ? services.map(x=><article className="card" key={x.id}>
@@ -346,7 +417,7 @@ async function submit(e:React.FormEvent) {
         <div className="heading">
           <small>PRICE GUIDE</small>
           <h2>가격 안내</h2>
-         <p>상품 가격은 관리자 페이지에서 언제든지 변경할 수 있습니다.</p>
+          <p>상품 가격은 관리자 페이지에서 언제든지 변경할 수 있습니다.</p>
         </div>
         <div className="cards">
           {services.length ? services.map(x=><article className="priceCard" key={x.id}>
@@ -384,76 +455,31 @@ async function submit(e:React.FormEvent) {
     <section id="review" className="section alt">
       <div className="wrap">
         <div className="heading"><small>PLAYER VOICE</small><h2>이용 후기</h2></div>
-       {user ? (
-  <form className="form" onSubmit={submitReview}>
-    <h3>후기 작성하기</h3>
+        {user ? (
+          <form className="form" onSubmit={submitReview}>
+            <h3>후기 작성하기</h3>
+            <label>
+              후기 제목
+              <input required value={reviewTitle} onChange={e=>setReviewTitle(e.target.value)} placeholder="후기 제목을 입력하세요."/>
+            </label>
+            <label>
+              후기 내용
+              <textarea required value={reviewBody} onChange={e=>setReviewBody(e.target.value)} placeholder="서비스 이용 후기를 작성해 주세요."/>
+            </label>
+            <button className="btn" type="submit" disabled={reviewBusy}>
+              {reviewBusy ? "등록 중..." : "후기 등록하기"}
+            </button>
+            {reviewMessage && <p className="formStatus">{reviewMessage}</p>}
+            <p className="muted">작성한 후기는 관리자 승인 후 공개됩니다.</p>
+          </form>
+        ) : (
+          <div className="card">
+            <p>후기를 작성하려면 먼저 로그인해 주세요.</p>
+            <a className="btn" href="#account">로그인하기</a>
+          </div>
+        )}
 
-    <label>
-      후기 제목
-      <input
-        required
-        value={reviewTitle}
-        onChange={e=>setReviewTitle(e.target.value)}
-        placeholder="후기 제목을 입력하세요."
-      />
-    </label>
-
-    <label>
-      후기 내용
-      <textarea
-        required
-        value={reviewBody}
-        onChange={e=>setReviewBody(e.target.value)}
-        placeholder="서비스 이용 후기를 작성해 주세요."
-      />
-    </label>
-
-    <button className="btn" type="submit" disabled={reviewBusy}>
-      {reviewBusy ? "등록 중..." : "후기 등록하기"}
-    </button>
-
-    {reviewMessage && <p className="formStatus">{reviewMessage}</p>}
-    <p className="muted">작성한 후기는 관리자 승인 후 공개됩니다.</p>
-  </form>
-) : (
-  <div className="card">
-    <p>후기를 작성하려면 먼저 로그인해 주세요.</p>
-    <a className="btn" href="#account">로그인하기</a>
-  </div>
-)}
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-<div className="cards">
+        <div className="cards">
           {reviews.length ? reviews.map(x=><article className="card" key={x.id}>
             <p>{x.body}</p><h3>{x.title}</h3>
           </article>) : <article className="card">
@@ -496,16 +522,16 @@ async function submit(e:React.FormEvent) {
         <div>
           <small>CONTACT SA RIPPER</small>
           <h2>궁금한 점이 있으신가요?</h2>
-          <p>카카오톡 상담 채널에서 문의할 수 있습니다.</p>
+          <p>카카오톡 또는 디스코드에서 문의할 수 있습니다.</p>
         </div>
-       <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-  <a className="btn" href={kakao} target="_blank" rel="noreferrer">
-    카카오톡 상담 ↗
-  </a>
-  <a className="btn ghost" href="https://discord.gg/V8uzyT9zW" target="_blank" rel="noreferrer">
-    디스코드 참여 ↗
-  </a>
-</div>
+        <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
+          <a className="btn" href={kakao} target="_blank" rel="noreferrer">
+            카카오톡 상담 ↗
+          </a>
+          <a className="btn ghost" href="https://discord.gg/V8uzyT9zW" target="_blank" rel="noreferrer">
+            디스코드 참여 ↗
+          </a>
+        </div>
       </div>
     </section>
 
