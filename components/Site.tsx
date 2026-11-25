@@ -22,7 +22,10 @@ export default function Site() {
   const [password,setPassword] = useState("");
   const [authMessage,setAuthMessage] = useState("");
   const [authBusy,setAuthBusy] = useState(false);
-
+  const [reviewTitle,setReviewTitle] = useState("");
+  const [reviewBody,setReviewBody] = useState("");
+  const [reviewMessage,setReviewMessage] = useState("");
+  const [reviewBusy,setReviewBusy] = useState(false);
   useEffect(()=>{
     if (!supabase) return;
 
@@ -115,7 +118,69 @@ export default function Site() {
     setAuthMessage(error ? "로그아웃에 실패했습니다." : "로그아웃되었습니다.");
   }
 
- 
+ async function submitReview(e:React.FormEvent) {
+  e.preventDefault();
+  setReviewMessage("");
+
+  if(!supabase || !user) {
+    setReviewMessage("로그인 후 이용해 주세요.");
+    return;
+  }
+
+  if(!reviewTitle.trim() || !reviewBody.trim()) {
+    setReviewMessage("제목과 후기 내용을 입력해 주세요.");
+    return;
+  }
+
+  setReviewBusy(true);
+
+  try {
+    const {data:sessionData} = await supabase.auth.getSession();
+    const accessToken = sessionData.session?.access_token;
+
+    if(!accessToken) {
+      setReviewMessage("로그인 정보를 확인할 수 없습니다. 다시 로그인해 주세요.");
+      return;
+    }
+
+    const {error} = await supabase.from("reviews").insert({
+      user_id:user.id,
+      title:reviewTitle.trim(),
+      body:reviewBody.trim(),
+      is_approved:false
+    });
+
+    if(error) {
+      setReviewMessage("후기 등록 실패: " + error.message);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/notify-review", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          title:reviewTitle.trim(),
+          body:reviewBody.trim(),
+          accessToken
+        })
+      });
+
+      if(response.ok) {
+        setReviewMessage("후기가 접수되었습니다. 관리자 승인 후 공개됩니다.");
+      } else {
+        setReviewMessage("후기는 접수되었습니다. 디스코드 알림 전송은 실패했습니다.");
+      }
+    } catch {
+      setReviewMessage("후기는 접수되었습니다. 디스코드 알림 전송은 실패했습니다.");
+    }
+
+    setReviewTitle("");
+    setReviewBody("");
+  } finally {
+    setReviewBusy(false);
+  }
+}
 async function submit(e:React.FormEvent) {
   e.preventDefault();
   setSent("");
@@ -319,7 +384,76 @@ async function submit(e:React.FormEvent) {
     <section id="review" className="section alt">
       <div className="wrap">
         <div className="heading"><small>PLAYER VOICE</small><h2>이용 후기</h2></div>
-        <div className="cards">
+       {user ? (
+  <form className="form" onSubmit={submitReview}>
+    <h3>후기 작성하기</h3>
+
+    <label>
+      후기 제목
+      <input
+        required
+        value={reviewTitle}
+        onChange={e=>setReviewTitle(e.target.value)}
+        placeholder="후기 제목을 입력하세요."
+      />
+    </label>
+
+    <label>
+      후기 내용
+      <textarea
+        required
+        value={reviewBody}
+        onChange={e=>setReviewBody(e.target.value)}
+        placeholder="서비스 이용 후기를 작성해 주세요."
+      />
+    </label>
+
+    <button className="btn" type="submit" disabled={reviewBusy}>
+      {reviewBusy ? "등록 중..." : "후기 등록하기"}
+    </button>
+
+    {reviewMessage && <p className="formStatus">{reviewMessage}</p>}
+    <p className="muted">작성한 후기는 관리자 승인 후 공개됩니다.</p>
+  </form>
+) : (
+  <div className="card">
+    <p>후기를 작성하려면 먼저 로그인해 주세요.</p>
+    <a className="btn" href="#account">로그인하기</a>
+  </div>
+)}
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+<div className="cards">
           {reviews.length ? reviews.map(x=><article className="card" key={x.id}>
             <p>{x.body}</p><h3>{x.title}</h3>
           </article>) : <article className="card">
