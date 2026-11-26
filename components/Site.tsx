@@ -604,7 +604,11 @@ style={{ display: page === "reviews" ? "block" : "none" }}
             </span>
           </div>
           <h3>{item.title}</h3>
-          <p>{item.body}</p>
+          <div className="noticeContent">
+  {item.body.split("\n").map((line, index) => (
+    <p key={index}>{line}</p>
+  ))}
+</div>
         </article>
       )) : (
         <div className="noticeEmpty">
