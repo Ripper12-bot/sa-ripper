@@ -12,7 +12,15 @@ type Item = {
   category: string | null;
   created_at?: string;
 };
+function parsePrice(price: string | null) {
+  if (!price) return null;
 
+  const numbers = price.replace(/[^0-9]/g, "");
+
+  if (!numbers) return null;
+
+  return Number(numbers);
+}
 type Post = {
   id: string;
   title: string;
@@ -41,6 +49,19 @@ export default function Site({
   const [introLeaving, setIntroLeaving] = useState(false);
   
   const [services, setServices] = useState<Item[]>([]);
+  const [selectedServiceId, setSelectedServiceId] = useState("");
+const [quantity, setQuantity] = useState(1);
+const selectedService = services.find(
+  (item) => item.id === selectedServiceId
+);
+
+const unitPrice = selectedService
+  ? parsePrice(selectedService.price)
+  : null;
+
+const totalPrice = unitPrice !== null
+  ? unitPrice * quantity
+  : null;  
   const [notices, setNotices] = useState<Post[]>([]);
   const [events, setEvents] = useState<Post[]>([]);
   const [reviews, setReviews] = useState<Post[]>([]);
@@ -399,7 +420,41 @@ export default function Site({
         <article className="card">
           <h3>등록된 상품이 없습니다.</h3>
         </article>
-      )}
+           )}
+    </div>
+
+    <div className="priceCalculator">
+      <h2>예상 금액 계산기</h2>
+      <p>원하는 상품과 수량을 선택해 보세요.</p>
+
+      <select
+        value={selectedServiceId}
+        onChange={(e) => setSelectedServiceId(e.target.value)}
+      >
+        <option value="">상품을 선택하세요</option>
+        {services.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item.title}
+          </option>
+        ))}
+      </select>
+
+      <div>
+        <label>수량</label>
+        <input
+          type="number"
+          min="1"
+          value={quantity}
+          onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
+        />
+      </div>
+
+      <h3>
+        예상 금액:{" "}
+        {totalPrice !== null
+          ? `${totalPrice.toLocaleString("ko-KR")}원`
+          : "상품 가격 확인 필요"}
+      </h3>
     </div>
   </div>
 </section>
