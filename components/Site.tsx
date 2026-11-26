@@ -305,16 +305,18 @@ export default function Site({
         <a className="logo" href="#">
           ♛ SA <b>RIPPER</b>
         </a>
-        <nav className="mainNav">
-          <a href="#">HOME</a>
-          <a href="#tier">RANK</a>
-          <a href="#service">SERVICE</a>
-          <a href="#notice">NOTICE</a>
-          <a href="#review">REVIEW</a>
-        </nav>
-        <a className="loginNav" href="#account">
-          {user ? "MY ACCOUNT" : "LOGIN"}
-        </a>
+       <nav className="mainNav">
+  <a href="/">HOME</a>
+  <a href="/#tier">RANK</a>
+  <a href="/services">SERVICE</a>
+  <a href="/notices">NOTICE</a>
+  <a href="/reviews">REVIEW</a>
+  <a href="/contact">CONTACT</a>
+</nav>
+
+<a className="loginNav" href="/account">
+  {user ? "MY ACCOUNT" : "LOGIN"}
+</a>
       </div>
     </header>
 
