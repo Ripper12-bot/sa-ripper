@@ -39,7 +39,7 @@ export default function Admin(){
 
 if(!session)return <main className="adminShell"><form className="adminBox" onSubmit={login}><a className="logo" href="/">SA <b>RIPPER</b></a><h1>관리자 로그인</h1><p>등록된 관리자 계정으로 로그인하세요.</p><label>아이디 (이메일)<input type="email" required value={email} onChange={e=>setEmail(e.target.value)}/></label><label>비밀번호<input type="password" required value={password} onChange={e=>setPassword(e.target.value)}/></label><button className="btn">로그인</button><button type="button" onClick={sendRecovery}>비밀번호 재설정 이메일 받기</button>{message&&<p>{message}</p>}<a href="/">← 홈페이지로 돌아가기</a></form></main>;
 return <main className="adminShell"><div className="adminLayout"><aside className="adminSide"><a className="logo" href="/">SA <b>RIPPER</b></a><p>ADMIN PANEL</p>{[["services","상품 관리 / 가격"],["points","포인트 관리"],,["notices","공지사항"],["events","이벤트"],["reviews","후기 승인"],["applications","신청 / 문의"]].map(([k,v])=><button key={k} className={tab===k?"selected":""} onClick={()=>{setTab(k);setMessage("");}}>{v}</button>)}<button onClick={()=>supabase?.auth.signOut()}>로그아웃</button><a href="/">홈페이지 보기 ↗</a></aside><section className="adminMain"><div className="adminTop"><div><small>SA RIPPER MANAGEMENT</small><h1>관리자 대시보드</h1></div><span>로그인됨</span></div>{message&&<p className="adminMessage">{message}</p>}
- {tab==="applications"?<Applications/>:tab==="settings"?null:<><form className="adminForm" onSubmit={save}><h2>{tab==="services"?"상품 등록":tab==="notices"?"공지 작성":tab==="events"?"이벤트 등록":"후기 등록"}</h2><label>제목<input required value={draft.title} onChange={e=>setDraft({...draft,title:e.target.value})}/></label>{tab==="services"?<><label>카테고리<input value={draft.category} onChange={e=>setDraft({...draft,category:e.target.value})}/></label><label>가격 표시<input value={draft.price} onChange={e=>setDraft({...draft,price:e.target.value})} placeholder="예: 상담 후 안내"/></label><label>설명<textarea value={draft.description} onChange={e=>setDraft({...draft,description:e.target.value})}/></label></>:<label>내용<textarea value={draft.body} onChange={e=>setDraft({...draft,body:e.target.value})}/></label>}<button className="btn">등록하기</button></form><h2>등록된 항목</h2><div className="adminRows">{rows.map(r=><article key={r.id}><div><b>{r.title}</b><p>{r.description||r.body||r.price}</p></div><div className="rowActions"><button onClick={()=>toggle(r)}>{tab==="services"?(r.is_active?"노출 중":"숨김"):tab==="reviews"?(r.is_approved?"승인됨":"승인 대기"):(r.is_published?"게시 중":"비공개")}</button><button onClick={()=>remove(r.id)}>삭제</button></div></article>)}</div></>}
+ {tab==="points"?<Purchases/>:tab==="applications"?<Applications/>:tab==="settings"?null:<><form className="adminForm" onSubmit={save}><h2>{tab==="services"?"상품 등록":tab==="notices"?"공지 작성":tab==="events"?"이벤트 등록":"후기 등록"}</h2><label>제목<input required value={draft.title} onChange={e=>setDraft({...draft,title:e.target.value})}/></label>{tab==="services"?<><label>카테고리<input value={draft.category} onChange={e=>setDraft({...draft,category:e.target.value})}/></label><label>가격 표시<input value={draft.price} onChange={e=>setDraft({...draft,price:e.target.value})} placeholder="예: 상담 후 안내"/></label><label>설명<textarea value={draft.description} onChange={e=>setDraft({...draft,description:e.target.value})}/></label></>:<label>내용<textarea value={draft.body} onChange={e=>setDraft({...draft,body:e.target.value})}/></label>}<button className="btn">등록하기</button></form><h2>등록된 항목</h2><div className="adminRows">{rows.map(r=><article key={r.id}><div><b>{r.title}</b><p>{r.description||r.body||r.price}</p></div><div className="rowActions"><button onClick={()=>toggle(r)}>{tab==="services"?(r.is_active?"노출 중":"숨김"):tab==="reviews"?(r.is_approved?"승인됨":"승인 대기"):(r.is_published?"게시 중":"비공개")}</button><button onClick={()=>remove(r.id)}>삭제</button></div></article>)}</div></>}
  <div className="adminForm"><h2>카카오톡 상담 링크</h2><label>오픈채팅 URL<input value={kakao} onFocus={loadKakao} onChange={e=>setKakao(e.target.value)} placeholder="https://open.kakao.com/o/..."/></label><button className="btn" onClick={saveKakao}>링크 저장</button></div>
  </section></div></main>;
 }
@@ -85,4 +85,66 @@ function Applications(){
     </div>
   </>;
 }
+function Purchases(){
+  const [items,setItems]=useState<any[]>([]);
+  const [msg,setMsg]=useState("구매 내역을 불러오는 중...");
 
+  async function loadPurchases(){
+    if(!supabase)return;
+
+    const {data,error}=await supabase
+      .from("purchases")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+    if(error){
+      setMsg("조회 오류: "+error.message);
+      return;
+    }
+
+    setItems(data||[]);
+    setMsg(data?.length ? "" : "구매 내역이 없습니다.");
+  }
+
+  useEffect(()=>{
+    loadPurchases();
+  },[]);
+
+  async function approve(id:string){
+    if(!supabase)return;
+
+    const {data,error}=await supabase.rpc(
+      "approve_purchase",
+      {p_purchase_id:id}
+    );
+
+    if(error){
+      setMsg("승인 오류: "+error.message);
+      return;
+    }
+
+    setMsg(`${data}P 적립이 완료되었습니다.`);
+    loadPurchases();
+  }
+
+  return <>
+    <h2>포인트 관리</h2>
+    {msg&&<p>{msg}</p>}
+    <div className="adminRows">
+      {items.map(x=>(
+        <article key={x.id}>
+          <div>
+            <b>구매 금액: {Number(x.amount).toLocaleString("ko-KR")}원</b>
+            <p>회원 ID: {x.user_id}</p>
+            <p>적립 포인트: {x.points_awarded}P</p>
+            <p>상태: {x.status==="pending"?"승인 대기":x.status==="approved"?"승인 완료":"취소"}</p>
+            <small>{x.description||"구매 내역"} · {new Date(x.created_at).toLocaleString("ko-KR")}</small>
+          </div>
+          {x.status==="pending"&&(
+            <button onClick={()=>approve(x.id)}>3% 포인트 승인</button>
+          )}
+        </article>
+      ))}
+    </div>
+  </>;
+}
