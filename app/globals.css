@@ -1483,3 +1483,38 @@
   text-align: center;
   justify-content: center;
 }
+
+.serviceCategoryTabs {
+  display: flex;
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.serviceCategoryTabs button {
+  flex: 1;
+  padding: 13px 18px;
+  border: 1px solid rgba(212, 173, 85, 0.28);
+  border-radius: 10px;
+  background: #191c26;
+  color: #b8bac5;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.serviceCategoryTabs button.active {
+  background: #d4ad55;
+  border-color: #d4ad55;
+  color: #171717;
+}
+
+.serviceCategoryTabs button:hover {
+  border-color: #d4ad55;
+}
+
+@media (max-width: 600px) {
+  .serviceCategoryTabs button {
+    padding: 12px 8px;
+    font-size: 14px;
+  }
+}
