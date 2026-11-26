@@ -49,6 +49,7 @@ export default function Site({
   const [introLeaving, setIntroLeaving] = useState(false);
   
   const [services, setServices] = useState<Item[]>([]);
+  const [serviceCategory, setServiceCategory] = useState("매크로 상품");
   const [selectedServiceId, setSelectedServiceId] = useState("");
 const [quantity, setQuantity] = useState(1);
 const selectedService = services.find(
@@ -405,41 +406,71 @@ const totalPrice = unitPrice !== null
       <h2>상품 및 서비스</h2>
       <p>SA RIPPER의 서비스 상품을 확인하세요.</p>
     </div>
-    <div className="cards">
-      {services.length ? services.map((item) => (
-        <article className="priceCard" key={item.id}>
-          <small>{item.category || "SERVICE"}</small>
-          <h3>{item.title}</h3>
-          <strong>{item.price || "상담 후 안내"}</strong>
-          <p>{item.description}</p>
-          
-<div className="serviceContactButtons">
-  <a
-    className="btn full"
-    href="https://open.kakao.com/o/g7uT2zYi"
-    target="_blank"
-    rel="noopener noreferrer"
+    
+<div className="serviceCategoryTabs">
+  <button
+    type="button"
+    className={serviceCategory === "매크로 상품" ? "active" : ""}
+    onClick={() => setServiceCategory("매크로 상품")}
   >
-    카카오톡 상품 문의 →
-  </a>
+    매크로 상품
+  </button>
 
-  <a
-    className="btn full"
-    href="https://discord.gg/V8uzyT9zW"
-    target="_blank"
-    rel="noopener noreferrer"
+  <button
+    type="button"
+    className={serviceCategory === "일반 상품" ? "active" : ""}
+    onClick={() => setServiceCategory("일반 상품")}
   >
-    디스코드 상품 문의 →
-  </a>
+    일반 상품
+  </button>
 </div>
 
-        </article>
-      )) : (
-        <article className="card">
-          <h3>등록된 상품이 없습니다.</h3>
-        </article>
-           )}
-    </div>
+<div className="cards">
+  {services.filter((item) =>
+    (String(item.category || "").includes("매크로")
+      ? "매크로 상품"
+      : "일반 상품") === serviceCategory
+  ).length ? (
+    services.filter((item) =>
+      (String(item.category || "").includes("매크로")
+        ? "매크로 상품"
+        : "일반 상품") === serviceCategory
+    ).map((item) => (
+      <article className="priceCard" key={item.id}>
+        <small>{serviceCategory}</small>
+        <h3>{item.title}</h3>
+        <strong>{item.price || "상담 후 안내"}</strong>
+        <p>{item.description}</p>
+
+        <div className="serviceContactButtons">
+          <a
+            className="btn full"
+            href="https://open.kakao.com/o/g7uT2zYi"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            카카오톡 상품 문의 →
+          </a>
+
+          <a
+            className="btn full"
+            href="https://discord.gg/V8uzyT9zW"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            디스코드 상품 문의 →
+          </a>
+        </div>
+      </article>
+    ))
+  ) : (
+    <article className="card">
+      <h3>등록된 상품이 없습니다.</h3>
+      <p>다른 카테고리를 확인해 주세요.</p>
+    </article>
+  )}
+</div>
+
 
     <div className="priceCalculator">
       <h2>예상 금액 계산기</h2>
