@@ -1398,3 +1398,23 @@
     font-size: 17px;
   }
 }
+.noticeContent {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.noticeContent p {
+  margin: 0;
+  padding: 12px 15px;
+  color: #c8cad3;
+  background: rgba(255, 255, 255, 0.035);
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.noticeContent p:empty {
+  display: none;
+}
