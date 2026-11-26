@@ -412,9 +412,27 @@ const totalPrice = unitPrice !== null
           <h3>{item.title}</h3>
           <strong>{item.price || "상담 후 안내"}</strong>
           <p>{item.description}</p>
-          <a className="btn full" href="#apply">
-            문의하기 →
-          </a>
+          
+<div className="serviceContactButtons">
+  <a
+    className="btn full"
+    href="https://open.kakao.com/o/g7uT2zYi"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    카카오톡 상품 문의 →
+  </a>
+
+  <a
+    className="btn full"
+    href="https://discord.gg/V8uzyT9zW"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    디스코드 상품 문의 →
+  </a>
+</div>
+
         </article>
       )) : (
         <article className="card">
