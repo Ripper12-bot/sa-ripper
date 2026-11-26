@@ -604,11 +604,55 @@ style={{ display: page === "reviews" ? "block" : "none" }}
             </span>
           </div>
           <h3>{item.title}</h3>
-          <div className="noticeContent">
-  {item.body.split("\n").map((line, index) => (
-    <p key={index}>{line}</p>
-  ))}
-</div>
+          
+{item.body.includes("진행 절차") ? (
+  <div className="noticeSteps">
+    {item.body
+      .replace("진행 절차", "")
+      .split(/(?=[1-4]\.?\s*(?:문의 접수|조건 확인|견적 안내|진행 및 공유))/)
+      .map((part, index) => {
+        const match = part.trim().match(
+          /^[1-4]\.?\s*(문의 접수|조건 확인|견적 안내|진행 및 공유)\s*(.*)$/
+        );
+
+        if (!match) return null;
+
+        return (
+          <div className="noticeStep" key={index}>
+            <span>0{index + 1}</span>
+            <h4>{match[1]}</h4>
+            <p>{match[2]}</p>
+          </div>
+        );
+      })}
+  </div>
+) : item.body.includes("견적에 반영되는 항목") ? (
+  <div className="noticeQuotes">
+    {item.body
+      .replace("견적에 반영되는 항목", "")
+      .split(/(?=목표 구간|현재 점수|희망 일정|안전한 진행)/)
+      .map((part, index) => {
+        const labels = ["목표 구간", "현재 점수", "희망 일정", "안전한 진행"];
+        const label = labels.find((name) => part.trim().startsWith(name));
+
+        if (!label) return null;
+
+        return (
+          <div className="noticeQuote" key={index}>
+            <h4>{label}</h4>
+            <p>{part.trim().slice(label.length).trim()}</p>
+          </div>
+        );
+      })}
+  </div>
+) : (
+  <div className="noticeContent">
+    {item.body.split("\n").map((line, index) => (
+      <p key={index}>{line}</p>
+    ))}
+  </div>
+)}
+
         </article>
       )) : (
         <div className="noticeEmpty">
