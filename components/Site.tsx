@@ -336,7 +336,7 @@ export default function Site({
           <p className="heroDescription">
             당신의 랭크 상승을 위한 특별한 경험
           </p>
-          <a className="heroButton" href="#service">
+          <a className="heroButton" href="/services">
             서비스 둘러보기 →
           </a>
         </div>
@@ -346,7 +346,7 @@ export default function Site({
          
    <section
   className="homeHighlights"
-  style={{ display: page === "services" || page === "notices" || page === "reviews" || page === "account" || page === "contact" ? "none" : "block" }}
+ style={{ display: "none" }}
 >
   <div className="wrap">
     <div className="heading">
@@ -457,7 +457,7 @@ export default function Site({
    <section
   id="apply"
   className="section"
-  style={{ display: page === "services" || page === "notices" || page === "reviews" || page === "account" || page === "contact" ? "none" : "block" }}
+ style={{ display: "none" }}
 >
   <div className="wrap">
     <div className="heading">
@@ -490,7 +490,7 @@ export default function Site({
    <section
   id="review"
   className="section alt"
-style={{ display: page === "services" || page === "notices" || page === "account" || page === "contact" ? "none" : "block" }}
+style={{ display: page === "reviews" ? "block" : "none" }}
 >
   <div className="wrap">
     <div className="heading">
@@ -532,7 +532,7 @@ style={{ display: page === "services" || page === "notices" || page === "account
    <section
   id="notice"
   className="section"
-  style={{ display: page === "services" || page === "reviews" || page === "account" || page === "contact" ? "none" : "block" }}
+  style={{ display: page === "notices" ? "block" : "none" }}
 >
   <div className="wrap">
     <div className="heading">
@@ -554,7 +554,7 @@ style={{ display: page === "services" || page === "notices" || page === "account
     <section
   id="event"
   className="section alt"
-  style={{ display: page === "services" || page === "notices" || page === "reviews" || page === "account" || page === "contact" ? "none" : "block" }}
+ style={{ display: "none" }}
 >
   <div className="wrap">
     <div className="heading">
@@ -597,7 +597,7 @@ style={{ display: page === "services" || page === "notices" || page === "account
 
    <footer
   className="siteFooter"
-  style={{ display: page === "services" || page === "notices" || page === "reviews" || page === "account" || page === "contact" ? "none" : "block" }}
+  style={{ display: page === "home" ? "block" : "none" }}
 >
   <div className="wrap footer">
     <a className="logo" href="#">♛ SA <b>RIPPER</b></a>
