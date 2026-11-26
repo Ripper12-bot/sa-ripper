@@ -34,7 +34,7 @@ const tiers = [
 export default function Site({
   page = "home"
 }: {
- page?: "home" | "services" | "notices";
+ page?: "home" | "services" | "notices" | "reviews";
 }) {
     const [showIntro, setShowIntro] = useState(false);
   const [introReady, setIntroReady] = useState(false);
@@ -320,7 +320,7 @@ export default function Site({
 
     <section
   className="mainHero"
-  style={{ display: page === "services" || page === "notices" ? "none" : "block" }}
+ style={{ display: page === "services" || page === "notices" || page === "reviews" ? "none" : "block" }}
 >
       <div className="wrap heroInner">
         <div className="heroText">
@@ -344,7 +344,7 @@ export default function Site({
          
    <section
   className="homeHighlights"
-  style={{ display: page === "services" || page === "notices" ? "none" : "block" }}
+  style={{ display: page === "services" || page === "notices" || page === "reviews" ? "none" : "block" }}
 >
   <div className="wrap">
     <div className="heading">
@@ -405,7 +405,7 @@ export default function Site({
    <section
   id="account"
   className="section alt"
- style={{ display: page === "services" || page === "notices" ? "none" : "block" }}
+ style={{ display: page === "services" || page === "notices" || page === "reviews" ? "none" : "block" }}
 >
   <div className="wrap">
     <div className="heading">
@@ -455,7 +455,7 @@ export default function Site({
    <section
   id="apply"
   className="section"
-  style={{ display: page === "services" || page === "notices" ? "none" : "block" }}
+  style={{ display: page === "services" || page === "notices" || page === "reviews" ? "none" : "block" }}
 >
   <div className="wrap">
     <div className="heading">
@@ -530,7 +530,7 @@ style={{ display: page === "services" || page === "notices" ? "none" : "block" }
    <section
   id="notice"
   className="section"
-  style={{ display: page === "services" ? "none" : "block" }}
+  style={{ display: page === "services" || page === "reviews" ? "none" : "block" }}
 >
   <div className="wrap">
     <div className="heading">
@@ -552,7 +552,7 @@ style={{ display: page === "services" || page === "notices" ? "none" : "block" }
     <section
   id="event"
   className="section alt"
-  style={{ display: page === "services" || page === "notices" ? "none" : "block" }}
+  style={{ display: page === "services" || page === "notices" || page === "reviews" ? "none" : "block" }}
 >
   <div className="wrap">
     <div className="heading">
@@ -573,7 +573,7 @@ style={{ display: page === "services" || page === "notices" ? "none" : "block" }
 <section
   id="contact"
   className="contactBanner"
-  style={{ display: page === "services" || page === "notices" ? "none" : "block" }}
+  style={{ display: page === "services" || page === "notices" || page === "reviews" ? "none" : "block" }}
 >
   <div className="wrap contactBannerInner">
     <div className="contactBannerText">
@@ -595,7 +595,7 @@ style={{ display: page === "services" || page === "notices" ? "none" : "block" }
 
    <footer
   className="siteFooter"
-  style={{ display: page === "services" || page === "notices" ? "none" : "block" }}
+  style={{ display: page === "services" || page === "notices" || page === "reviews" ? "none" : "block" }}
 >
   <div className="wrap footer">
     <a className="logo" href="#">♛ SA <b>RIPPER</b></a>
