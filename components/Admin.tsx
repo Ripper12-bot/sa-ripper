@@ -85,9 +85,13 @@ function Applications(){
     </div>
   </>;
 }
+
 function Purchases(){
   const [items,setItems]=useState<any[]>([]);
   const [msg,setMsg]=useState("구매 내역을 불러오는 중...");
+  const [userId,setUserId]=useState("");
+  const [amount,setAmount]=useState("");
+  const [description,setDescription]=useState("");
 
   async function loadPurchases(){
     if(!supabase)return;
@@ -110,6 +114,36 @@ function Purchases(){
     loadPurchases();
   },[]);
 
+  async function addPurchase(e:any){
+    e.preventDefault();
+    if(!supabase)return;
+
+    const purchaseAmount=Number(amount);
+
+    if(!userId.trim() || !Number.isInteger(purchaseAmount) || purchaseAmount<=0){
+      setMsg("회원 ID와 올바른 구매 금액을 입력해 주세요.");
+      return;
+    }
+
+    const {error}=await supabase.from("purchases").insert({
+      user_id:userId.trim(),
+      amount:purchaseAmount,
+      description:description.trim()||"구매 내역",
+      status:"pending"
+    });
+
+    if(error){
+      setMsg("등록 오류: "+error.message);
+      return;
+    }
+
+    setUserId("");
+    setAmount("");
+    setDescription("");
+    setMsg("구매 내역이 등록되었습니다.");
+    loadPurchases();
+  }
+
   async function approve(id:string){
     if(!supabase)return;
 
@@ -129,7 +163,51 @@ function Purchases(){
 
   return <>
     <h2>포인트 관리</h2>
+
+    <form className="adminForm" onSubmit={addPurchase}>
+      <h3>회원 구매 내역 등록</h3>
+
+      <label>
+        회원 ID (UUID)
+        <input
+          required
+          value={userId}
+          onChange={e=>setUserId(e.target.value)}
+          placeholder="회원의 Supabase 사용자 ID"
+        />
+      </label>
+
+      <label>
+        구매 금액 (원)
+        <input
+          required
+          type="number"
+          min="1"
+          step="1"
+          value={amount}
+          onChange={e=>setAmount(e.target.value)}
+          placeholder="예: 100000"
+        />
+      </label>
+
+      <label>
+        구매 내용
+        <input
+          value={description}
+          onChange={e=>setDescription(e.target.value)}
+          placeholder="예: 상품 구매"
+        />
+      </label>
+
+      <button className="btn" type="submit">
+        구매 내역 등록
+      </button>
+    </form>
+
     {msg&&<p>{msg}</p>}
+
+    <h3>구매 내역 목록</h3>
+
     <div className="adminRows">
       {items.map(x=>(
         <article key={x.id}>
