@@ -594,16 +594,24 @@ style={{ display: page === "reviews" ? "block" : "none" }}
       <small>NOTICE</small>
       <h2>공지사항</h2>
     </div>
-    <div className="rows">
+       <div className="noticeList">
       {notices.length ? notices.map(item => (
-        <article className="row" key={item.id}>
-          <b>{item.title}</b>
-          <span>{new Date(item.created_at).toLocaleDateString("ko-KR")}</span>
+        <article className="noticeCard" key={item.id}>
+          <div className="noticeCardTop">
+            <span className="noticeBadge">NOTICE</span>
+            <span className="noticeDate">
+              {new Date(item.created_at).toLocaleDateString("ko-KR")}
+            </span>
+          </div>
+          <h3>{item.title}</h3>
           <p>{item.body}</p>
         </article>
-      )) : <div className="row">등록된 공지사항이 없습니다.</div>}
+      )) : (
+        <div className="noticeEmpty">
+          등록된 공지사항이 없습니다.
+        </div>
+      )}
     </div>
-  </div>
 </section>
 
     <section
