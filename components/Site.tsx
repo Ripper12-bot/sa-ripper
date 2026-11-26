@@ -658,8 +658,9 @@ style={{ display: page === "reviews" ? "block" : "none" }}
         <div className="noticeEmpty">
           등록된 공지사항이 없습니다.
         </div>
-      )}
+           )}
     </div>
+  </div>
 </section>
 
     <section
