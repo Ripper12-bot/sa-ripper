@@ -286,9 +286,9 @@ export default function Site({
     {introReady && showIntro && (
      <div className={`introScreen${introLeaving ? " leaving" : ""}`}>
         <div className="introContent">
-          <p className="introLabel">SUDDEN ATTACK RANK SERVICE</p>
-          <h1>SA <strong>RIPPER</strong></h1>
-          <p>당신의 새로운 시작</p>
+         <p className="introLabel">SA RIPPER</p>
+<h1>Welcome to <strong>SA RIPPER</strong></h1>
+<p>SA RIPPER는 게임 점수 향상 서비스와 다양한 상품을 소개하고 판매하는 사이트입니다.</p>
           <button onClick={enterSite}>
             사이트 둘러보기 →
           </button>
