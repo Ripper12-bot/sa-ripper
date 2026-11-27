@@ -77,6 +77,10 @@ const totalPrice = unitPrice !== null
   const [kakao, setKakao] = useState("https://open.kakao.com/o/g7uT2zYi");
 
   const [user, setUser] = useState<any>(null);
+  const [myPoints, setMyPoints] = useState(0);
+const [pointHistory, setPointHistory] = useState<any[]>([]);
+  const [myPoints, setMyPoints] = useState(0);
+const [pointHistory, setPointHistory] = useState<any[]>([]);
   const [authMode, setAuthMode] = useState<"signup" | "login">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -114,8 +118,24 @@ const totalPrice = unitPrice !== null
 
     const {
       data: { subscription }
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+   } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+  const { data } = await supabase
+    .from("point_transactions")
+    .select("id, points, reason, created_at")
+    .eq("user_id", session.user.id)
+    .order("created_at", { ascending: false });
+
+  const history = data || [];
+  setPointHistory(history);
+  setMyPoints(
+    history.reduce((sum, item) => sum + item.points, 0)
+  );
+} else {
+  setPointHistory([]);
+  setMyPoints(0);
+}
     });
 
     return () => subscription.unsubscribe();
@@ -523,6 +543,21 @@ const totalPrice = unitPrice !== null
         <>
           <h3>로그인되었습니다.</h3>
           <p>{user.email}</p>
+          <div className="pointCard">
+  <small>MY POINTS</small>
+  <h2>{myPoints.toLocaleString("ko-KR")} P</h2>
+  <p>구매 금액의 3% 적립</p>
+  <h3>포인트 적립 내역</h3>
+  {pointHistory.length === 0 ? (
+    <p>아직 적립 내역이 없습니다.</p>
+  ) : (
+    pointHistory.map((item:any)=>(
+      <p key={item.id}>
+        {item.reason} · {item.points.toLocaleString("ko-KR")} P
+      </p>
+    ))
+  )}
+</div>
           <button className="btn" type="button" onClick={handleLogout}>
             로그아웃
           </button>
