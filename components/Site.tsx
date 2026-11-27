@@ -79,8 +79,6 @@ const totalPrice = unitPrice !== null
   const [user, setUser] = useState<any>(null);
   const [myPoints, setMyPoints] = useState(0);
 const [pointHistory, setPointHistory] = useState<any[]>([]);
-  const [myPoints, setMyPoints] = useState(0);
-const [pointHistory, setPointHistory] = useState<any[]>([]);
   const [authMode, setAuthMode] = useState<"signup" | "login">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
