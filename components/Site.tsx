@@ -119,7 +119,6 @@ const [pointHistory, setPointHistory] = useState<any[]>([]);
    } = supabase.auth.onAuthStateChange((_event, session) => {
   setUser(session?.user ?? null);
 });
-      if (session?.user) {
         if (!supabase) return;
         
   const { data } = await supabase
@@ -135,8 +134,7 @@ const [pointHistory, setPointHistory] = useState<any[]>([]);
   );
 } else {
   setPointHistory([]);
-  setMyPoints(0);
-}
+
     });
 
     return () => subscription.unsubscribe();
