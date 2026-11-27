@@ -116,8 +116,9 @@ const [pointHistory, setPointHistory] = useState<any[]>([]);
 
     const {
       data: { subscription }
-   } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user ?? null);
+   } = supabase.auth.onAuthStateChange((_event, session) => {
+  setUser(session?.user ?? null);
+});
       if (session?.user) {
         if (!supabase) return;
         
@@ -140,7 +141,37 @@ const [pointHistory, setPointHistory] = useState<any[]>([]);
 
     return () => subscription.unsubscribe();
   }, []);
+  useEffect(() => {
+    async function loadMyPoints() {
+      if (!supabase || !user?.id) {
+        setPointHistory([]);
+        setMyPoints(0);
+        return;
+      }
 
+      const { data, error } = await supabase
+        .from("point_transactions")
+        .select("id, points, reason, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("포인트 조회 오류:", error.message);
+        return;
+      }
+
+      const history = data || [];
+      setPointHistory(history);
+      setMyPoints(
+        history.reduce(
+          (sum: number, item: any) => sum + Number(item.points),
+          0
+        )
+      );
+    }
+
+    loadMyPoints();
+  }, [user?.id]);
   useEffect(() => {
     (async () => {
       if (!supabase) {
