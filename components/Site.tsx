@@ -119,6 +119,8 @@ const [pointHistory, setPointHistory] = useState<any[]>([]);
    } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
       if (session?.user) {
+        if (!supabase) return;
+        
   const { data } = await supabase
     .from("point_transactions")
     .select("id, points, reason, created_at")
